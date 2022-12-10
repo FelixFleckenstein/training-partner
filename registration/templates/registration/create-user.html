@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-center">Create User</h1>
+
+<form action="new-user" method="post">
+	{% csrf_token %}
+	<div class="mb-3">
+		<label for="{{ form.userName.id_for_label }}" class="form-label">{{ form.userName.label }}</label>
+		{{ form.userName }}
+		{{ form.userName.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.firstName.id_for_label }}" class="form-label">{{ form.firstName.label }}</label>
+		{{ form.firstName }}
+		{{ form.firstName.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.lastName.id_for_label }}" class="form-label">{{ form.lastName.label }}</label>
+		{{ form.lastName }}
+		{{ form.lastName.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
+		{{ form.password }}
+		{{ form.password.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.birthday.id_for_label }}" class="form-label">{{ form.birthday.label }}</label>
+		{{ form.birthday }}
+		{{ form.birthday.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.height.id_for_label }}" class="form-label">{{ form.height.label }}</label>
+		{{ form.height }}
+		{{ form.height.errors }}
+	</div>
+
+	<div class="mb-3">
+		<label for="{{ form.weight.id_for_label }}" class="form-label">{{ form.weight.label }}</label>
+		{{ form.weight }}
+		{{ form.weight.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.kfa.id_for_label }}" class="form-label">{{ form.kfa.label }}</label>
+		{{ form.kfa }}
+		{{ form.kfa.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.breast.id_for_label }}" class="form-label">{{ form.breast.label }}</label>
+		{{ form.breast }}
+		{{ form.breast.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.stomach.id_for_label }}" class="form-label">{{ form.stomach.label }}</label>
+		{{ form.stomach }}
+		{{ form.stomach.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.arm.id_for_label }}" class="form-label">{{ form.arm.label }}</label>
+		{{ form.arm }}
+		{{ form.arm.errors }}
+	</div>
+	<div class="mb-3">
+		<label for="{{ form.upperLeg.id_for_label }}" class="form-label">{{ form.upperLeg.label }}</label>
+		{{ form.upperLeg }}
+		{{ form.upperLeg.errors }}
+	</div>
+
+	<button type="submit" class="btn btn-primary">Erstellen</button>
+  </form>
+{% endblock %}

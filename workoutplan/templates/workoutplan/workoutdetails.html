@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Trainings-Plan</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">{{ date }}<br/>{{ description }}</div>
+				<div class="dash-card-body">
+					<table>
+					{% for ex in exercises %}
+						<tr>
+							<th style="border: solid black 1px;">
+								{{ex.exerciseBaseNr}}
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#setsModal" onclick="document.getElementById('id_exId').value = {{ex.id}};">
+									+
+								</button>
+							</th>
+						</tr>
+						<tr>
+							<td style="border: solid black 1px;">
+								<table>
+									<tr>
+										<td style="border: solid black 1px;">Gewicht</td>
+										<td style="border: solid black 1px;">Reps</td>
+									</tr>
+									{% for set in ex.sets.all %}
+										<tr>
+											<td style="border: solid black 1px;">{{set.weight}}</td>
+											<td style="border: solid black 1px;">{{set.reps}}</td>
+										</tr>
+									{% endfor %}
+								</table>
+							</td>
+						</tr>
+						<tr><td style="padding: 10px;"></td></tr>
+					{% endfor %}
+					</table>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exerciseModal">
+						Übung hinzufügen
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal add Workout -->
+<div class="modal fade" id="exerciseModal" tabindex="-1" aria-labelledby="exerciseModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="workoutModalLabel">Übung hinzufügen</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="/workoutplan/add-exercise" method="post">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="{{ exerciseForm.exercise.id_for_label }}" class="form-label">{{ exerciseForm.exercise.label }}</label>
+						{{ exerciseForm.exercise }}
+						{{ exerciseForm.exercise.errors }}
+					</div>
+
+					<div class="mb-3">
+						<label for="{{ exerciseForm.weight.id_for_label }}" class="form-label">{{ exerciseForm.weight.label }}</label>
+						{{ exerciseForm.weight }}
+						{{ exerciseForm.weight.errors }}
+					</div>
+
+					<div class="mb-3">
+						<label for="{{ exerciseForm.reps.id_for_label }}" class="form-label">{{ exerciseForm.reps.label }}</label>
+						{{ exerciseForm.reps }}
+						{{ exerciseForm.reps.errors }}
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+						<button type="submit" class="btn btn-primary">Übung hinzufügen</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal add Sets -->
+<div class="modal fade" id="setsModal" tabindex="-1" aria-labelledby="setsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="setsModalLabel">Satz hinzufügen</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="/workoutplan/add-sets" method="post">
+					{% csrf_token %}
+
+					<div class="mb-3">
+						{{ setsForm.exId }}
+					</div>
+
+					<div class="mb-3">
+						<label for="{{ setsForm.weight.id_for_label }}" class="form-label">{{ setsForm.weight.label }}</label>
+						{{ setsForm.weight }}
+						{{ setsForm.weight.errors }}
+					</div>
+
+					<div class="mb-3">
+						<label for="{{ sets.reps.id_for_label }}" class="form-label">{{ setsForm.reps.label }}</label>
+						{{ setsForm.reps }}
+						{{ setsForm.reps.errors }}
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+						<button type="submit" class="btn btn-primary">Übung hinzufügen</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

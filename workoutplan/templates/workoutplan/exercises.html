@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Trainings-Plan</h1>
+
+<div>
+    <form action="/workoutplan/exercises" method="post">
+        {% csrf_token %}
+        <div style="border: solid black 1px; float: left">
+            <div class="mb-3">
+                <label for="{{ baseForm.name.id_for_label }}" class="form-label">{{ baseForm.name.label }}</label>
+                {{ baseForm.name }}
+                {{ baseForm.name.errors }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ baseForm.description.id_for_label }}" class="form-label">{{ baseForm.description.label }}</label>
+                {{ baseForm.description }}
+                {{ baseForm.description.errors }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ baseForm.muscles.id_for_label }}" class="form-label">{{ baseForm.muscles.label }}</label>
+                {{ baseForm.muscles }}
+                {{ baseForm.muscles.errors }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ baseForm.equipments.id_for_label }}" class="form-label">{{ baseForm.equipments.label }}</label>
+                {{ baseForm.equipments }}
+                {{ baseForm.equipments.errors }}
+            </div>
+            <br/>
+            <button type="submit" class="btn btn-primary">Übung Eintragen</button>
+        </div>
+    </form>
+
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Beschreibung</td>
+            <td>Muskeln</td>
+            <td>Equipment</td>
+        </tr>
+        {% for ex in exercises %}
+            <tr>
+                <td style="border: solid black 1px;">{{ex.name}}</td>
+                <td style="border: solid black 1px;">{{ex.description}}</td>
+                <td style="border: solid black 1px;">
+                    {%for temp in ex.muscles.all %}
+                        {{temp}}
+                    {% endfor %}
+                </td>
+                <td style="border: solid black 1px;">
+                    {%for temp in ex.equipments.all %}
+                        {{temp}}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+    
+    
+    <div class="mb-3">
+        <label for="{{ createWoForm.description.id_for_label }}" class="form-label">{{ createWoForm.description.label }}</label>
+        {{ createWoForm.description }}
+        {{ createWoForm.description.errors }}
+    </div>
+
+
+{% endblock %}

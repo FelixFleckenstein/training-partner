@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+	
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Dashboard</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">{{ person.name }} {{ person.lastName }}</div>
+				<div class="dash-card-body">
+					
+					<div class="container">
+						<div class="row">
+							<div class="col">Größe</div>
+							<div class="col">{{ person.getHeight }} m</div>
+						</div>
+						<div class="row">
+							<div class="col">Gewicht</div>
+							<div class="col">{{ gewicht }} kg</div>
+						</div>
+						<div class="row">
+							<div class="col">KFA</div>
+							<div class="col">{{ kfa }} %</div>
+						</div>
+						
+						<div class="row">
+							<div class="col">BMI</div>
+							<div class="col">{{ bmi }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">
+					Gewicht in KG
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="float: right;">
+						+
+					</button>
+				</div>
+				<div class="dash-card-body">
+					<canvas id="myChart"></canvas>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">
+					KFA in %
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kfaModal" style="float: right;">
+						+
+					</button>
+				</div>
+				<div class="dash-card-body">
+					<canvas id="myChart2"></canvas>
+				</div>
+			</div>
+		</div>
+<!--
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">BMI</div>
+				<div class="dash-card-body">
+					<canvas id="myChart3"></canvas>
+				</div>
+			</div>
+		</div>
+-->
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">
+					Körpermaße
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#messurementsModal" style="float: right;">
+						+
+					</button>
+				</div>
+				<div class="dash-card-body">
+					<img src="data:image/png;base64,{{ koerper }}" width="200"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal add KG -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Gewicht hinzufügen</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="person/add-kg" method="post">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="{{ kgForm.date.id_for_label }}" class="form-label">{{ kgForm.date.label }}</label>
+						{{ kgForm.date }}
+						{{ kgForm.date.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ kgForm.kg.id_for_label }}" class="form-label">{{ kgForm.kg.label }}</label>
+						{{ kgForm.kg }}
+						{{ kgForm.kg.errors }}
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+						<button type="submit" class="btn btn-primary">Hinzufügen</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal add KFA -->
+<div class="modal fade" id="kfaModal" tabindex="-1" aria-labelledby="kfaModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="kfaModalLabel">KFA hinzufügen</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="person/add-kfa" method="post">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="{{ kfaForm.date.id_for_label }}" class="form-label">{{ kfaForm.date.label }}</label>
+						{{ kfaForm.date }}
+						{{ kfaForm.date.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ kfaForm.kfa.id_for_label }}" class="form-label">{{ kfaForm.kfa.label }}</label>
+						{{ kfaForm.kfa }}
+						{{ kfaForm.kfa.errors }}
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+						<button type="submit" class="btn btn-primary">Hinzufügen</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal add Messurements -->
+<div class="modal fade" id="messurementsModal" tabindex="-1" aria-labelledby="messurementsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="messurementsModalLabel">Körpermaße hinzufügen</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="person/add-messurements" method="post">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="{{ messurementForm.date.id_for_label }}" class="form-label">{{ messurementForm.date.label }}</label>
+						{{ messurementForm.date }}
+						{{ messurementForm.date.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ messurementForm.breast.id_for_label }}" class="form-label">{{ messurementForm.breast.label }}</label>
+						{{ messurementForm.breast }}
+						{{ messurementForm.breast.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ messurementForm.stomach.id_for_label }}" class="form-label">{{ messurementForm.stomach.label }}</label>
+						{{ messurementForm.stomach }}
+						{{ messurementForm.stomach.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ messurementForm.arm.id_for_label }}" class="form-label">{{ messurementForm.arm.label }}</label>
+						{{ messurementForm.arm }}
+						{{ messurementForm.arm.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ messurementForm.upperLeg.id_for_label }}" class="form-label">{{ messurementForm.upperLeg.label }}</label>
+						{{ messurementForm.upperLeg }}
+						{{ messurementForm.upperLeg.errors }}
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+						<button type="submit" class="btn btn-primary">Hinzufügen</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>	  
+	const data = {
+		labels: {{ gewichte.labels|safe }} ,
+		datasets: [{
+			backgroundColor: 'rgb(255, 99, 132)',
+			borderColor: 'rgb(255, 99, 132)',
+			data: {{ gewichte.data|safe }} ,
+		}]
+	};
+	  
+	const config = {
+		type: 'line',
+		data: data,
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				}
+			}
+		}
+	};
+
+	const data2 = {
+		labels: {{ kfaAll.labels|safe }} ,
+		datasets: [{
+			label: 'KFA in %',
+			backgroundColor: 'rgb(255, 99, 132)',
+			borderColor: 'rgb(255, 99, 132)',
+			data: {{ kfaAll.data|safe }} ,
+		}]
+	};
+	  
+	const config2 = {
+		type: 'line',
+		data: data2,
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				}
+			}
+		}
+	};
+
+/* const data3 = {
+		labels: {{ bmis.labels|safe }} ,
+		datasets: [{
+			label: 'BMI',
+			backgroundColor: 'rgb(255, 99, 132)',
+			borderColor: 'rgb(255, 99, 132)',
+			data: {{ bmis.data|safe }} ,
+		}]
+	};
+	  
+	const config3 = {
+		type: 'line',
+		data: data3,
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				}
+			}
+		}
+	};
+*/
+</script>
+
+
+<script>
+	const myChart = new Chart(document.getElementById('myChart'), config);
+	const myChart2 = new Chart(document.getElementById('myChart2'), config2);
+	//const myChart3 = new Chart(document.getElementById('myChart3'), config3);
+</script>
+
+{% endblock %}

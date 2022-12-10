@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+	
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Trainings-Plan</h1>
+
+<div class="container">
+	<div class="row">
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#workoutModal">
+			Neues Workout
+		</button>
+	</div>
+
+	{% for date, description, id in workouts %}
+	<div class="row">
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">{{ date }}</div>
+				<a href="workoutdetails?id={{id}}">
+					<div class="dash-card-body">
+						{{ description }}
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+
+</div>
+
+<!-- Modal add Workout -->
+<div class="modal fade" id="workoutModal" tabindex="-1" aria-labelledby="workoutModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="workoutModalLabel">Workout beginnen</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="/workoutplan/create-workout" method="post">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="{{ createWoForm.date.id_for_label }}" class="form-label">{{ createWoForm.date.label }}</label>
+						{{ createWoForm.date }}
+						{{ createWoForm.date.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ createWoForm.description.id_for_label }}" class="form-label">{{ createWoForm.description.label }}</label>
+						{{ createWoForm.description }}
+						{{ createWoForm.description.errors }}
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+						<button type="submit" class="btn btn-primary">Workout beginnen</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

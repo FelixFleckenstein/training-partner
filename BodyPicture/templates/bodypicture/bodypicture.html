@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+	
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Transformation Bild</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">Vorher-Nacher-Bild</div>
+				<div class="dash-card-body">
+					<form method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						 {{ form.as_p }}
+						<button type="submit">Upload</button>
+					  </form>
+					  
+					  {% if firstPic %}
+						<img src="{{ firstPic.url}}" alt="connect" style="max-height:700px">
+					  {% endif %}
+					  {% if lastPic %}
+						<img src="{{ lastPic.url}}" alt="connect" style="max-height:700px">
+					  {% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
