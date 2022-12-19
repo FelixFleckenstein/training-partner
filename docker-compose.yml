@@ -1,0 +1,17 @@
+services:
+    training-partner:
+        image: build ./src/
+        restart: always
+        volumes:
+            - './media/:/usr/src/app/media/'
+        depends_on:
+            db:
+                condition: service_healthy
+
+    db:
+        image: mariadb
+        restart: always
+        volumes:
+            - './mariadb/:/var/lib/mysql/'
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "--silent"]
