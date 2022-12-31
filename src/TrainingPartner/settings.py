@@ -29,7 +29,8 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = os.environ.get('SERVERNAMES').split(' ')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF').split(' ') # ['https://*.smallstep-software.de','https://*.127.0.0.1']
 
 # Application definition
 
