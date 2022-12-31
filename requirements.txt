@@ -1,4 +1,4 @@
 Django==3.2.10
-environ==1.0
+django-environ
 Pillow==9.3.0
 mysqlclient
