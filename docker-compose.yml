@@ -2,6 +2,8 @@ services:
     training-partner:
         image: build ./src/
         restart: always
+        ports:
+            - 8111:8000
         volumes:
             - './media/:/usr/src/app/media/'
         depends_on:
