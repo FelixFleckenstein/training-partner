@@ -10,7 +10,10 @@ from .forms import NewUserForm
 
 @login_required
 def userProfile(request):
-	return render(request, 'registration/user-profile.html')
+	person = Person.objects.get(id=request.user.id)
+
+	context = {'person': person, 'userName': request.user.username}
+	return render(request, 'registration/user-profile.html', context)
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
