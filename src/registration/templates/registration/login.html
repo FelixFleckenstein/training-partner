@@ -53,13 +53,17 @@
 
                                 <form method="post">
                                 {% csrf_token %}
-                                <table>
+                                <table width="90%">
                                 <tr>
                                     <td>{{ form.username.label_tag }}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ form.username }}</td>
                                 </tr>
                                 <tr>
                                     <td>{{ form.password.label_tag }}</td>
+                                </tr>
+                                <tr>
                                     <td>{{ form.password }}</td>
                                 </tr>
                                 </table>
