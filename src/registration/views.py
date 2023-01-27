@@ -6,13 +6,27 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 
 from person.models import Person, BodyWeight, BodyFat, BodyDimension
-from .forms import NewUserForm
+from .forms import NewUserForm, ChangePwForm
+
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 @login_required
 def userProfile(request):
+	if request.method == 'POST':
+		chgPwForm = PasswordChangeForm(request.user, request.POST)
+		if chgPwForm.is_valid():
+			user = chgPwForm.save()
+			update_session_auth_hash(request, user)  # Important!
+			#messages.success(request, 'Your password was successfully updated!')
+		else:
+			print(chgPwForm.errors)
+
 	person = Person.objects.get(id=request.user.id)
 
-	context = {'person': person, 'userName': request.user.username}
+	chgPwForm = PasswordChangeForm(request.user)
+
+	context = {'person': person, 'userName': request.user.username, 'chgPwForm': chgPwForm}
 	return render(request, 'registration/user-profile.html', context)
 
 @login_required

@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
 	path('new-user', views.createUser, name='index'),
 	path('user-profile', views.userProfile, name="userProfile"),
+	path('change-password', views.userProfile, name="userProfile"),
 ]

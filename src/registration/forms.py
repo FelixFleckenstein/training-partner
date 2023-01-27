@@ -18,3 +18,8 @@ class NewUserForm(forms.Form):
 		super(NewUserForm, self).__init__(*args, **kwargs)
 		for visible in self.visible_fields():
 			visible.field.widget.attrs['class'] = 'form-control'
+
+class ChangePwForm(forms.Form):
+	oldPw = forms.CharField(widget=forms.PasswordInput(), label="Altes Passwort")
+	newPw = forms.CharField(widget=forms.PasswordInput(), label="Neues Passwort")
+	repeatPw = forms.CharField(widget=forms.PasswordInput(), label="Neues Passwort wiederholen")
