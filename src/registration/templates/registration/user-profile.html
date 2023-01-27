@@ -12,10 +12,75 @@
 	<div class="row">
 		<div class="col">
 			<div class="dash-card">
+				<div class="dash-card-header">User-Details</div>
+				<div class="dash-card-body">
+					<table>
+						<tr>
+							<td>Username:</td>
+							<td>{{ userName }}</td>
+						</tr>
+						<tr>
+							<td>Name:</td>
+							<td>{{ person.name }} {{ person.lastName }}</td>
+						</tr>
+						<tr>
+							<td>Geburtsdatum:</td>
+							<td>{{ person.birthday }}</td>
+						</tr>
+						<tr>
+							<td>Größe:</td>
+							<td>{{ person.height }} cm</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="dash-card">
 				<div class="dash-card-header">Passwort ändern</div>
 				<div class="dash-card-body">
-					Hier kann später das Passwort geändert werden
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chgPwModal">
+						Passwort ändern
+					</button>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="chgPwModal" tabindex="-1" aria-labelledby="chgPwModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="chgPwModalLabel">Passwort ändern</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="/registration/change-password" method="post">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="{{ chgPwForm.old_password.id_for_label }}" class="form-label">{{ chgPwForm.old_password.label }}</label>
+						{{ chgPwForm.old_password }}
+						{{ chgPwForm.old_password.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ chgPwForm.new_password1.id_for_label }}" class="form-label">{{ chgPwForm.new_password1.label }}</label>
+						{{ chgPwForm.new_password1 }}
+						{{ chgPwForm.new_password1.errors }}
+					</div>
+					<div class="mb-3">
+						<label for="{{ chgPwForm.new_password2.id_for_label }}" class="form-label">{{ chgPwForm.new_password2.label }}</label>
+						{{ chgPwForm.new_password2 }}
+						{{ chgPwForm.new_password2.errors }}
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+						<button type="submit" class="btn btn-primary">Passwort ändern</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
