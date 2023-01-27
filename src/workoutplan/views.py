@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect
 
 from datetime import datetime
@@ -11,6 +12,7 @@ from workoutplan.forms import CreateWorkoutForm, AddExerciseForm, AddExerciseBas
 
 # Create your views here.
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def exercises(request):
 	exerciseQuery = ExerciseBase.objects.all()
 	baseForm = AddExerciseBaseForm()
