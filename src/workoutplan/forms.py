@@ -23,5 +23,5 @@ class AddExerciseBaseForm(forms.ModelForm):
 
 class AddSetsForm(forms.Form):
     exId = forms.IntegerField(required=False, widget=forms.HiddenInput())
-    weight = forms.IntegerField(required=False, label='Gewicht')
+    weight = forms.FloatField(required=False, label='Gewicht')
     reps = forms.IntegerField(required=False, label='Reps')
