@@ -1,6 +1,8 @@
 app.env
 db.env
 
+src/media/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

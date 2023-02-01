@@ -22,10 +22,10 @@
 					  </form>
 					  
 					  {% if firstPic %}
-						<img src="{{ firstPic.url}}" alt="first" style="width:49%">
+						<a href="{{ firstPic.url}}" target="_blank"><img src="{{ firstPic.url}}" alt="first" style="width:49%"></a>
 					  {% endif %}
 					  {% if lastPic %}
-						<img src="{{ lastPic.url}}" alt="last" style="width:49%">
+					  	<a href="{{ lastPic.url}}" target="_blank"><img src="{{ lastPic.url}}" alt="last" style="width:49%"></a>
 					  {% endif %}
 				</div>
 			</div>
