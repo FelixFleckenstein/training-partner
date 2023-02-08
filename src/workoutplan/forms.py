@@ -12,7 +12,7 @@ class CreateWorkoutForm(forms.Form):
 			visible.field.widget.attrs['class'] = 'form-control'
 
 class AddExerciseForm(forms.Form):
-    exercise = forms.ModelChoiceField(queryset=ExerciseBase.objects.all(), label='Übung')
+    exercise = forms.ModelChoiceField(queryset=ExerciseBase.objects.all().order_by('name'), label='Übung')
     weight = forms.IntegerField(required=False, label='Gewicht')
     reps = forms.IntegerField(required=False, label='Reps')
 
