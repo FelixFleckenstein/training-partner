@@ -13,7 +13,7 @@ class CreateWorkoutForm(forms.Form):
 
 class AddExerciseForm(forms.Form):
     exercise = forms.ModelChoiceField(queryset=ExerciseBase.objects.all().order_by('name'), label='Übung')
-    weight = forms.IntegerField(required=False, label='Gewicht')
+    weight = forms.FloatField(required=False, label='Gewicht')
     reps = forms.IntegerField(required=False, label='Reps')
 
 class AddExerciseBaseForm(forms.ModelForm):
