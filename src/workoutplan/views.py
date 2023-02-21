@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect
 from django.db.models import Max
+from django.db.models import Q
 
 from datetime import datetime
 
@@ -54,7 +55,8 @@ def workoutDetailsReturn(request, woId):
 	exercises = wo.exercises.all()
 
 	for exercise in exercises:
-		exercise.lastMax = Set.objects.select_related('exerciseNr', 'exerciseNr__workoutNr', 'exerciseNr__workoutNr__personNr').filter(exerciseNr__exerciseBaseNr=exercise.exerciseBaseNr, exerciseNr__workoutNr__personNr__id=request.user.id).aggregate(Max('weight'))['weight__max']
+		#exercise.lastMax = Set.objects.select_related('exerciseNr', 'exerciseNr__workoutNr', 'exerciseNr__workoutNr__personNr').filter(exerciseNr__exerciseBaseNr=exercise.exerciseBaseNr, exerciseNr__workoutNr__personNr__id=request.user.id).last().weight
+		exercise.lastMax = Set.objects.select_related('exerciseNr', 'exerciseNr__workoutNr', 'exerciseNr__workoutNr__personNr').filter(~Q(exerciseNr__workoutNr__id=woId), exerciseNr__exerciseBaseNr=exercise.exerciseBaseNr, exerciseNr__workoutNr__personNr__id=request.user.id).order_by('-exerciseNr__workoutNr__date').values('exerciseNr__workoutNr__date').annotate(max_weight=Max('weight')).first()['max_weight']
 
 	request.session['woId'] = woId
 
