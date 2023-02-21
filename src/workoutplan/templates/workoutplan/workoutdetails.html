@@ -16,7 +16,7 @@
 					{% for ex in exercises %}
 						<tr>
 							<th style="border: solid black 1px;">
-								{{ex.exerciseBaseNr}}
+								{{ex.exerciseBaseNr}} (Last max: {{ex.lastMax}})
 								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#setsModal" onclick="document.getElementById('id_exId').value = {{ex.id}};">
 									+
 								</button>
@@ -67,6 +67,7 @@
 						{{ exerciseForm.exercise.errors }}
 					</div>
 
+				<!--
 					<div class="mb-3">
 						<label for="{{ exerciseForm.weight.id_for_label }}" class="form-label">{{ exerciseForm.weight.label }}</label>
 						{{ exerciseForm.weight }}
@@ -78,7 +79,7 @@
 						{{ exerciseForm.reps }}
 						{{ exerciseForm.reps.errors }}
 					</div>
-				
+				-->
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
 						<button type="submit" class="btn btn-primary">Übung hinzufügen</button>

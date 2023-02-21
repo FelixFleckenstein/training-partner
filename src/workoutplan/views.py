@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect
+from django.db.models import Max
 
 from datetime import datetime
 
@@ -50,8 +51,10 @@ def workoutDetailsReturn(request, woId):
 	
 	exerciseForm = AddExerciseForm()
 	setsForm = AddSetsForm()
-	exercises = wo.exercises.all
+	exercises = wo.exercises.all()
 
+	for exercise in exercises:
+		exercise.lastMax = Set.objects.select_related('exerciseNr', 'exerciseNr__workoutNr', 'exerciseNr__workoutNr__personNr').filter(exerciseNr__exerciseBaseNr=exercise.exerciseBaseNr, exerciseNr__workoutNr__personNr__id=request.user.id).aggregate(Max('weight'))['weight__max']
 
 	request.session['woId'] = woId
 
@@ -68,15 +71,16 @@ def createWorkout(request):
 	person = Person.objects.get(id=request.user.id)
 	wo = Workout(personNr=person, description=request.POST.get("description", ""), date=datetime.strptime(request.POST.get("date", ""), '%d.%m.%Y'))
 	wo.save()
-	return HttpResponseRedirect('/workoutplan/index')
+	#return HttpResponseRedirect('/workoutplan/workoutdetails?id=' + str(wo.id))
+	return workoutDetailsReturn(request, str(wo.id))
 
 @login_required
 def addExercise(request):
 	ex = Exercise(workoutNr=Workout.objects.get(id=request.session['woId']), exerciseBaseNr=ExerciseBase.objects.get(id=request.POST.get("exercise", "")))
 	ex.save()
 
-	set = Set(exerciseNr=ex, weight=request.POST.get("weight", ""), reps=request.POST.get("reps", ""))
-	set.save()
+	#set = Set(exerciseNr=ex, weight=request.POST.get("weight", ""), reps=request.POST.get("reps", ""))
+	#set.save()
 
 	return workoutDetailsReturn(request, request.session['woId'])
 
