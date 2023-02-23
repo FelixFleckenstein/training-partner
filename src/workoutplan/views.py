@@ -55,8 +55,10 @@ def workoutDetailsReturn(request, woId):
 	exercises = wo.exercises.all()
 
 	for exercise in exercises:
-		#exercise.lastMax = Set.objects.select_related('exerciseNr', 'exerciseNr__workoutNr', 'exerciseNr__workoutNr__personNr').filter(exerciseNr__exerciseBaseNr=exercise.exerciseBaseNr, exerciseNr__workoutNr__personNr__id=request.user.id).last().weight
-		exercise.lastMax = Set.objects.select_related('exerciseNr', 'exerciseNr__workoutNr', 'exerciseNr__workoutNr__personNr').filter(~Q(exerciseNr__workoutNr__id=woId), exerciseNr__exerciseBaseNr=exercise.exerciseBaseNr, exerciseNr__workoutNr__personNr__id=request.user.id).order_by('-exerciseNr__workoutNr__date').values('exerciseNr__workoutNr__date').annotate(max_weight=Max('weight')).first()['max_weight']
+		try:
+			exercise.lastMax = Set.objects.select_related('exerciseNr', 'exerciseNr__workoutNr', 'exerciseNr__workoutNr__personNr').filter(~Q(exerciseNr__workoutNr__id=woId), exerciseNr__exerciseBaseNr=exercise.exerciseBaseNr, exerciseNr__workoutNr__personNr__id=request.user.id).order_by('-exerciseNr__workoutNr__date').values('exerciseNr__workoutNr__date').annotate(max_weight=Max('weight')).first()['max_weight']
+		except:
+			exercise.lastMax = 0
 
 	request.session['woId'] = woId
 
