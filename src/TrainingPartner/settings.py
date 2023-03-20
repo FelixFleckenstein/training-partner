@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'registration',
     'BodyPicture',
     'workoutplan',
+    'analytics',
 ]
 
 MIDDLEWARE = [

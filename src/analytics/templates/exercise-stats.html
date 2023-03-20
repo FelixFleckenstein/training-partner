@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+	
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Exercise Stats</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="dash-card">
+				<div class="dash-card-header">Dies Das</div>
+				<div class="dash-card-body">
+					<canvas id="myChart"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>	  
+	const data = {
+		labels: {{ werte.labels|safe }} ,
+		datasets: [{
+			backgroundColor: 'rgb(255, 99, 132)',
+			borderColor: 'rgb(255, 99, 132)',
+			data: {{ werte.data|safe }} ,
+		}]
+	};
+	  
+	const config = {
+		type: 'line',
+		data: data,
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				}
+			}
+		}
+	};
+</script>
+
+<script>
+	const myChart = new Chart(document.getElementById('myChart'), config);
+</script>
+{% endblock %}
