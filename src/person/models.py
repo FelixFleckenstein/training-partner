@@ -65,7 +65,6 @@ class BodyFat(models.Model):
 		
 def uploadBodyPic(instance, filename):
     return 'bodyImages/%s/%s' % (instance.personNr.id, filename)
-	#return 'bodyImages/%s' % filename
 
 class BodyOptic(models.Model):
 	id = models.AutoField(primary_key=True)

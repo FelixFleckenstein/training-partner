@@ -22,6 +22,9 @@ class EquipmentBase(models.Model):
     def __str__(self):
         return self.name
 
+def uploadExercisePic(filename):
+    return 'exerciseImages/%s' % (filename)
+
 class ExerciseBase(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -29,6 +32,7 @@ class ExerciseBase(models.Model):
     muscles = models.ManyToManyField(MuscleBase)
     equipments = models.ManyToManyField(EquipmentBase)
     # Example Picture
+    picture = models.ImageField(upload_to=uploadExercisePic, null=True)
     # Example Video
     
     def __str__(self):

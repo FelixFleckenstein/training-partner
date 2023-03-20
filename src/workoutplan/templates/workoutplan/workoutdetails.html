@@ -24,18 +24,27 @@
 						</tr>
 						<tr>
 							<td style="border: solid black 1px;">
-								<table>
-									<tr>
-										<td style="border: solid black 1px;">Gewicht</td>
-										<td style="border: solid black 1px;">Reps</td>
-									</tr>
-									{% for set in ex.sets.all %}
+								{% if not ex.sets.all %}
+									{% if ex.exerciseBaseNr.picture %}
+										<img src="../static/{{ex.exerciseBaseNr.picture}}" height="250px"/>
+									{% else %}
+									<img src="../static/exerciseImages/default.jpg" height="250px"/>
+									{% endif %}
+
+								{% else %}
+									<table>
 										<tr>
-											<td style="border: solid black 1px;">{{set.weight}}</td>
-											<td style="border: solid black 1px;">{{set.reps}}</td>
+											<td style="border: solid black 1px;">Gewicht</td>
+											<td style="border: solid black 1px;">Reps</td>
 										</tr>
-									{% endfor %}
-								</table>
+										{% for set in ex.sets.all %}
+											<tr>
+												<td style="border: solid black 1px;">{{set.weight}}</td>
+												<td style="border: solid black 1px;">{{set.reps}}</td>
+											</tr>
+										{% endfor %}
+									</table>
+								{% endif %}
 							</td>
 						</tr>
 						<tr><td style="padding: 10px;"></td></tr>
