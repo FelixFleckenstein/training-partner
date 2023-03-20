@@ -26,9 +26,9 @@
 							<td style="border: solid black 1px;">
 								{% if not ex.sets.all %}
 									{% if ex.exerciseBaseNr.picture %}
-										<img src="../static/{{ex.exerciseBaseNr.picture}}" height="250px"/>
+										<img src="../media/{{ex.exerciseBaseNr.picture}}" height="250px"/>
 									{% else %}
-									<img src="../static/exerciseImages/default.jpg" height="250px"/>
+									<img src="../media/exerciseImages/default.jpg" height="250px"/>
 									{% endif %}
 
 								{% else %}
