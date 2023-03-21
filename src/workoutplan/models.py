@@ -54,3 +54,15 @@ class Set(models.Model):
     exerciseNr = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='sets')
     weight = models.FloatField()
     reps = models.PositiveIntegerField()
+
+class Template(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+class TemplateDetail(models.Model):
+    id = models.AutoField(primary_key=True)
+    templateNr = models.ForeignKey(Template, on_delete=models.CASCADE, related_name='exercises')
+    exerciseBaseNr = models.ForeignKey(ExerciseBase, on_delete=models.CASCADE)

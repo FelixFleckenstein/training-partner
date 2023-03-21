@@ -9,8 +9,8 @@ from django.db.models import Q
 from datetime import datetime
 
 from person.models import Person
-from workoutplan.models import Workout, Exercise, ExerciseBase, MuscleBase, EquipmentBase, Set
-from workoutplan.forms import CreateWorkoutForm, AddExerciseForm, AddExerciseBaseForm, AddSetsForm
+from workoutplan.models import Workout, Exercise, ExerciseBase, MuscleBase, EquipmentBase, Set, Template
+from workoutplan.forms import CreateWorkoutForm, AddExerciseForm, AddExerciseBaseForm, AddSetsForm, TemplateForm
 
 # Create your views here.
 @login_required
@@ -38,8 +38,9 @@ def index(request):
 			workouts.append([entry.date, entry.description, entry.id])
 
 	createWorkoutForm = CreateWorkoutForm()
+	templates = TemplateForm()
 
-	context = {'createWoForm': createWorkoutForm, 'workouts': workouts}
+	context = {'createWoForm': createWorkoutForm, 'workouts': workouts, 'templates': templates}
 	return render(request, 'workoutplan/workoutplan.html', context)
 
 def workoutDetailsReturn(request, woId):
@@ -75,16 +76,20 @@ def createWorkout(request):
 	person = Person.objects.get(id=request.user.id)
 	wo = Workout(personNr=person, description=request.POST.get("description", ""), date=datetime.strptime(request.POST.get("date", ""), '%d.%m.%Y'))
 	wo.save()
-	#return HttpResponseRedirect('/workoutplan/workoutdetails?id=' + str(wo.id))
+
+	# Template eintragen
+	template = Template.objects.get(id=request.POST.get("template", ""))
+
+	for temp in template.exercises.all():
+		ex = Exercise(workoutNr=wo, exerciseBaseNr=ExerciseBase.objects.get(id=temp.exerciseBaseNr.id))
+		ex.save()
+
 	return workoutDetailsReturn(request, str(wo.id))
 
 @login_required
 def addExercise(request):
 	ex = Exercise(workoutNr=Workout.objects.get(id=request.session['woId']), exerciseBaseNr=ExerciseBase.objects.get(id=request.POST.get("exercise", "")))
 	ex.save()
-
-	#set = Set(exerciseNr=ex, weight=request.POST.get("weight", ""), reps=request.POST.get("reps", ""))
-	#set.save()
 
 	return workoutDetailsReturn(request, request.session['woId'])
 

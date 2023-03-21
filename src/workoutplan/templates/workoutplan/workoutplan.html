@@ -54,6 +54,13 @@
 						{{ createWoForm.description }}
 						{{ createWoForm.description.errors }}
 					</div>
+
+					<!--- Auswahlliste für Templates -->
+					<div class="mb-3">
+						<label for="{{ templates.template.id_for_label }}" class="form-label">{{ templates.template.label }}</label>
+						{{ templates.template }}
+						{{ templates.template.errors }}
+					</div>
 				
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>

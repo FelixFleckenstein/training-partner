@@ -1,10 +1,10 @@
 from django import forms
 from datetime import datetime
-from workoutplan.models import Exercise, MuscleBase, ExerciseBase
+from workoutplan.models import Exercise, MuscleBase, ExerciseBase, Template
 
 class CreateWorkoutForm(forms.Form):
 	date = forms.DateField(label='Datum', initial=datetime.today)
-	description = forms.CharField(label='Beschreibung', widget=forms.Textarea())
+	description = forms.CharField(label='Beschreibung')
 
 	def __init__(self, *args, **kwargs):
 		super(CreateWorkoutForm, self).__init__(*args, **kwargs)
@@ -25,3 +25,6 @@ class AddSetsForm(forms.Form):
     exId = forms.IntegerField(required=False, widget=forms.HiddenInput())
     weight = forms.FloatField(required=False, label='Gewicht')
     reps = forms.IntegerField(required=False, label='Reps')
+
+class TemplateForm(forms.Form):
+    template = forms.ModelChoiceField(queryset=Template.objects.all().order_by('name'), label='Template')
