@@ -8,8 +8,9 @@ from django.db.models import Avg
 
 class Dataset:
 	def __init__(self):
+		self.data1 = []
+		self.data2 = []
 		self.labels = []
-		self.data = []
 
 @login_required
 def exerciseStats(request):
@@ -32,8 +33,10 @@ def exerciseStats(request):
 
 	for x in bankdrueken:
 		print(x)
-		werte.labels.append(x["avg_reps"])
-		werte.data.append(x["avg_weight"])
+		werte.data1.append(x["avg_reps"])
+		werte.data2.append(x["avg_weight"])
+		werte.labels.append(str(x["max_date"]))
+		print(x["max_date"])
 
 	context = {'ex': exercises, 'werte': werte}
 	return render(request, 'exercise-stats.html', context)

@@ -19,7 +19,7 @@
 					<form action="/analytics/exercise-stats" method="post">
 						{% csrf_token %}
 						<div class="mb-3" style="float: left">
-							<label for="{{ ex.exercise.id_for_label }}" class="form-label">{{ ex.exercise.label }}</label>
+							<label for="{{ ex.exercise.id_for_label }}" class="form-label">{{ ex.exercise.label }}</label><br/>
 							{{ ex.exercise }}
 							{{ ex.exercise.errors }}
 						</div>
@@ -34,30 +34,26 @@
 	</div>
 </div>
 
-<script>	  
-	const data = {
-		labels: {{ werte.labels|safe }} ,
-		datasets: [{
-			backgroundColor: 'rgb(255, 99, 132)',
-			borderColor: 'rgb(255, 99, 132)',
-			data: {{ werte.data|safe }} ,
-		}]
-	};
-	  
-	const config = {
-		type: 'line',
-		data: data,
-		options: {
-			plugins: {
-				legend: {
-					display: false
-				}
-			}
-		}
-	};
+<script>
+	const mixedChart = new Chart(document.getElementById('myChart'), {
+		data: {
+			datasets: [{
+				type: 'line',
+				label: 'Gewicht',
+				data: {{ werte.data2|safe }} ,
+				backgroundColor: 'rgba(230, 81, 0, 1)',
+				borderColor: 'rgba(230, 81, 0, 1)'
+			},
+			{
+				type: 'bar',
+				label: 'Wiederholungen',
+				data: {{ werte.data1|safe }},
+				backgroundColor: 'rgba(27, 188, 156, 1)'
+			}],
+			labels: {{ werte.labels|safe }}
+		},
+	});
+
 </script>
 
-<script>
-	const myChart = new Chart(document.getElementById('myChart'), config);
-</script>
 {% endblock %}
