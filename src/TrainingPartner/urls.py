@@ -27,6 +27,7 @@ urlpatterns = [
     path('workoutplan/', include('workoutplan.urls')),
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.LoginView.as_view()),
+    path('analytics/', include('analytics.urls')),
 ]
 
 if settings.DEBUG:
