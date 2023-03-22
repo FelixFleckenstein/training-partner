@@ -38,9 +38,10 @@ def index(request):
 			workouts.append([entry.date, entry.description, entry.id])
 
 	createWorkoutForm = CreateWorkoutForm()
+	editWorkoutForm = CreateWorkoutForm(prefix='edit')
 	templates = TemplateForm()
 
-	context = {'createWoForm': createWorkoutForm, 'workouts': workouts, 'templates': templates}
+	context = {'createWoForm': createWorkoutForm, 'workouts': workouts, 'templates': templates, 'editWoForm': editWorkoutForm}
 	return render(request, 'workoutplan/workoutplan.html', context)
 
 def workoutDetailsReturn(request, woId):
@@ -85,6 +86,23 @@ def createWorkout(request):
 		ex.save()
 
 	return workoutDetailsReturn(request, str(wo.id))
+
+@login_required
+def editWorkout(request):
+	#check if wo id is owned by actual user
+	wo = Workout.objects.get(id=request.POST.get("woId", ""))
+	if wo.personNr_id != request.user.id:
+		print("This Workout is not owned by this user!")
+		return HttpResponseRedirect('/workoutplan/index')
+
+	if request.POST.get("action", "") == "save":
+		wo.date = datetime.strptime(request.POST.get("edit-date", ""), '%d.%m.%Y')
+		wo.description = request.POST.get("edit-description", "")
+		wo.save()
+	elif request.POST.get("action", "") == "delete":
+		wo.delete()
+
+	return HttpResponseRedirect('/workoutplan/index')
 
 @login_required
 def addExercise(request):
